@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import "./card.styles.css";
 
 export const Card = (props) => {
-  const pexelsUrl = "https://api.pexels.com/v1/curated?page=2&per_page=40";
+  const pexelsUrl =
+    "https://api.pexels.com/v1/search?query=thinking?per_page=15";
   const pexelsRequestOptions = useRef({
     method: "GET",
     headers: {
@@ -33,13 +34,16 @@ export const Card = (props) => {
   // console.log(httpGet(pexelsUrl, pexelsRequestOptions))
 
   return (
-    <div className="card-container">
+    <div>
       {/* <h1> {props.philosopher.name} </h1> */}
-      {photos[0] && <img alt="monster" src={photos[0].src.small} />}
+      {photos.map((photo) => (
+        <div className="card-container">
+          <img key={photo.id} alt="monster" src={photo.src.small} />
+          <h2> {props.monster.name} </h2>
+        </div>
+      ))}
       {/* <img alt="monster" src={`https://robohash.org/${props.monster.id}?set=set2&size=180x180`}/>
     <img alt="monster" src={`https://api.pexels.com/v1/photos/:${pexelsPhotoId()}?src.small`}/> */}
-
-      <h2> {props.monster.name} </h2>
     </div>
   );
 };
