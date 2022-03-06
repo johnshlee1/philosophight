@@ -1,6 +1,7 @@
 // import firebase from 'firebase';
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 
 const config = {
   projectId: "firebasics-e7d3a",
@@ -18,5 +19,7 @@ const config = {
 const firebaseApp = initializeApp(config);
 
 export const storage = getStorage(firebaseApp);
+
+export const firestore = getFirestore();
 
 export default firebaseApp;

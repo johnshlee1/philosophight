@@ -1,54 +1,82 @@
-import React from "react";
-import { storage } from "./base";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import React, { useState, useEffect } from "react";
 
-import "./App.css";
+import { doc, collection, getDoc, getDocs } from "firebase/firestore";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { firestore, storage } from "./firebase/firebase";
+
+import { addCollectionAndDocuments } from "./api/api-utils.component";
+
 import { CardList } from "./components/card-list/card-list.component";
 import { SearchBox } from "./components/search-box/search-box.component";
+import { UploadSection } from "./components/upload-section/upload-section.component";
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      monsters: [],
-      searchField: "",
-      image: null,
-      progress: 0,
-      downloadURL: null,
-    };
-  }
+import "./App.css";
 
-  componentDidMount() {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((users) => {
-        this.setState({ monsters: users });
-      });
-  }
+const App = () => {
+  const [philosophers, setPhilosophers] = useState([]);
+  const [addedPhilosopher, setAddedPhilosopher] = useState(null);
 
-  handleChange = (e) => {
-    if (e.target.files[0]) {
-      this.setState({
-        image: e.target.files[0],
-      });
+  const [searchField, setSearchField] = useState("");
+  const [currentId, setCurrentId] = useState(0);
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [weapon, setWeapon] = useState("");
+  const [strength, setStrength] = useState("");
+  const [weakness, setWeakness] = useState("");
+
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    if (event.target.files[0]) {
+      setFile(event.target.files[0]);
     }
   };
 
-  handleUpload = () => {
+  const handleFirstNameInput = (e) => {
+    if (e.target.value) {
+      setFirstName(e.target.value);
+    }
+  };
+  const handleLastNameInput = (e) => {
+    if (e.target.value) {
+      setLastName(e.target.value);
+    }
+  };
+
+  const handleWeaponInput = (e) => {
+    if (e.target.value) {
+      setWeapon(e.target.value);
+    }
+  };
+
+  const handleStrengthInput = (e) => {
+    if (e.target.value) {
+      setStrength(e.target.value);
+    }
+  };
+
+  const handleWeaknessInput = (e) => {
+    if (e.target.value) {
+      setWeakness(e.target.value);
+    }
+  };
+
+  const handleUpload = () => {
     const metadata = {
       contentType: "image/jpeg",
     };
-    const file = this.state.image;
+
     const storageRef = ref(storage, "philosophers-images/" + file.name);
     const uploadTask = uploadBytesResumable(storageRef, file, metadata);
 
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        var progress =
-          Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        this.setState({ progress });
-        console.log("Upload is " + progress + "% done");
+        let uploadProgress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        console.log("Upload is " + uploadProgress + "% done");
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -79,129 +107,107 @@ class App extends React.Component {
       () => {
         // Upload completed successfully, now get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          this.setState(
-            {
-              downloadURL: url,
-            },
-            () => {
-              console.log("this.state.downloadURL =", this.state.downloadURL);
-            }
+          const collectionToAdd = {
+            id: parseInt(currentId) + 1,
+            name: `${firstName + " " + lastName}`,
+            weapon: weapon,
+            strength: strength,
+            weakness: weakness,
+            imageUrl: url,
+          };
+          addCollectionAndDocuments(collectionToAdd);
+          setCurrentId(collectionToAdd.id);
+          setAddedPhilosopher(
+            `${collectionToAdd.id + " " + collectionToAdd.name}`
           );
-          console.log("File available at", url);
         });
         document.getElementById("file").value = null;
       }
     );
   };
 
-  render() {
-    const { monsters, searchField } = this.state;
-    const handleSearch = (e) => {
-      this.setState({ searchField: e.target.value });
+  const getPhilosophers = async () => {
+    const philosophersDoc = await getDocs(
+      collection(firestore, "philosophers")
+    );
+
+    const ids = [];
+    philosophersDoc.forEach((doc) => {
+      //store the values of all philosophers
+      philosophers.push(doc.data());
+
+      //store the values of all ids
+      ids.push(doc.data().id);
+      // doc.data() is never undefined for query doc snapshots
+      // console.log(doc.id, " => ", doc.data());
+    });
+    console.log(philosophers);
+
+    //store the value of the Current id
+    const lastId = ids.reduce((prev, cur) => {
+      return prev > cur ? prev : cur;
+    }, 0);
+    setCurrentId(lastId);
+    console.log("id logged from within getPhilosophers()", currentId);
+
+    return;
+  };
+
+  useEffect(() => {
+    console.log("run getPhilosophers()");
+    getPhilosophers();
+  }, []);
+
+  useEffect(() => {
+    console.log("run getAddedPhilosopher()");
+    const getAddedPhilosopher = async (philosopherId) => {
+      const philosopherRef = doc(firestore, "philosophers", `${philosopherId}`);
+      const philosopherSnap = await getDoc(philosopherRef);
+
+      if (philosopherSnap.exists()) {
+        setPhilosophers([...philosophers, philosopherSnap.data()]);
+        console.log("Document data:", philosopherSnap.data());
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+
+      return;
     };
+    getAddedPhilosopher(addedPhilosopher);
+  }, [addedPhilosopher]);
 
-    const filteredMonsters = monsters.filter((monster) =>
-      monster.name.toLowerCase().includes(searchField.toLowerCase())
-    );
-    return (
-      <div className="App">
-        <h1> Philosophight </h1>
+  const handleSearch = (e) => {
+    setSearchField(e.target.value);
+  };
 
-        <label>
-          <span>Upload Image </span>
-          <input type="file" id="file" onChange={this.handleChange} />
-        </label>
+  const filteredPhilosophers = philosophers.filter((philosopher) =>
+    philosopher.name.toLowerCase().includes(searchField.toLowerCase())
+  );
+  console.log("on re-render ", currentId);
 
-        <label>
-          <span>Enter Name </span>
-          <input type="text" name="username" placeholder="Name" />
-        </label>
-        <label>
-          <span>Enter Description </span>
-          <input type="text" name="username" placeholder="Description" />
-        </label>
+  return (
+    <div className="App">
+      <h1> Philosophight </h1>
 
-        {this.state.progress}
-        <button className="button" onClick={this.handleUpload}>
-          Submit
-        </button>
+      <UploadSection
+        handleFileChange={handleFileChange}
+        handleFirstNameInput={handleFirstNameInput}
+        handleLastNameInput={handleLastNameInput}
+        handleWeaponInput={handleWeaponInput}
+        handleStrengthInput={handleStrengthInput}
+        handleWeaknessInput={handleWeaknessInput}
+        handleUpload={handleUpload}
+      />
 
-        <img
-          className="ref"
-          src={this.state.downloadURL || "https://via.placeholder.com/400x300"}
-          alt="Uploaded Images"
-          height="300"
-          width="400"
-        />
-        <SearchBox placeholder="search monsters" handleChange={handleSearch} />
+      <SearchBox
+        placeholder="search philosophers"
+        handleSearch={handleSearch}
+      />
 
-        <CardList monsters={filteredMonsters} />
-      </div>
-    );
-  }
-}
-
-//   return (
-//     <div className="App">
-//       <h1> Philosophight </h1>
-//       <form onSubmit={onSubmit}>
-//         <input type="file" onChange={onFileChange} />
-//         <input type="text" name="username" placeholder="NAME" />
-//         <button>Submit</button>
-//       </form>
-//       <ul>
-//         {users.map((user) => {
-//           return (
-//             <li>
-//               <img
-//                 key={user.name}
-//                 width="100"
-//                 height="100"
-//                 src={user.avatar}
-//                 alt={user.name}
-//               />
-//               <p>{user.name}</p>
-//             </li>
-//           );
-//         })}
-//       </ul>
-//       <SearchBox placeholder="search monsters" handleChange={handleChange} />
-//       <CardList monsters={filteredMonsters} />
-//     </div>
-//   );
-// };
+      <CardList philosophers={filteredPhilosophers} />
+    </div>
+  );
+};
 
 export default App;
-
-// const onSubmit = (e) => {
-//   e.preventDefault();
-//   const files = e.target.files;
-//   const file = e.target.files[0];
-//   const philosophersImagesFileRef = ref(storage, "philosophers-images");
-//   const fileRef = ref(storage, `philosophers-images/${files[0].name}`);
-
-//   const username = e.target.username.value;
-//   if (!username) {
-//     return;
-//   }
-//   uploadBytes(fileRef, files).then((snapshot) => {
-//     console.log("Uploaded a blob or file!");
-//     console.log(snapshot);
-//   });
-// storage.collection("users").doc(username).set({
-//   name: username,
-//   avatar: fileUrl,
-// });
-// };
-
-// useEffect(() => {
-//   const fetchUsers = async () => {
-//     const usersCollection = await storage.collection("users").get();
-//     setUsers(
-//       usersCollection.docs.map((doc) => {
-//         return doc.data();
-//       })
-//     );
-//   };
-//   fetchUsers();
-// }, []);

@@ -5,11 +5,8 @@ import "./card-list.styles.css";
 export const CardList = (props) => {
   return (
     <div className="card-list">
-      {/* {props.philosophers.map(philosopher => 
+      {props.philosophers.map((philosopher) => (
         <Card key={philosopher.id} philosopher={philosopher} />
-      )} */}
-      {props.monsters.map((monster) => (
-        <Card key={monster.id} monster={monster} />
       ))}
     </div>
   );
