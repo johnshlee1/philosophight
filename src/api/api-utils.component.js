@@ -7,7 +7,7 @@ export const addCollectionAndDocuments = async (collectionToAdd) => {
       doc(
         firestore,
         "philosophers",
-        `${collectionToAdd.id + " " + collectionToAdd.name}`
+        `${collectionToAdd.name + " " + collectionToAdd.id}`
       ),
       collectionToAdd
     );
