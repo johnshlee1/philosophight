@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/philosophight/static/css/main.a0a62d70.css",
+    "main.css": "/philosophight/static/css/main.d815fb9e.css",
     "main.js": "/philosophight/static/js/main.f0554a20.js",
     "static/js/787.fa6baf27.chunk.js": "/philosophight/static/js/787.fa6baf27.chunk.js",
     "index.html": "/philosophight/index.html",
-    "main.a0a62d70.css.map": "/philosophight/static/css/main.a0a62d70.css.map",
+    "main.d815fb9e.css.map": "/philosophight/static/css/main.d815fb9e.css.map",
     "main.f0554a20.js.map": "/philosophight/static/js/main.f0554a20.js.map",
     "787.fa6baf27.chunk.js.map": "/philosophight/static/js/787.fa6baf27.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a0a62d70.css",
+    "static/css/main.d815fb9e.css",
     "static/js/main.f0554a20.js"
   ]
 }
