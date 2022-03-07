@@ -3,7 +3,7 @@ import "./card.styles.css";
 
 export const Card = (props) => {
   return (
-    <div>
+    <div className="card-background">
       <div className="card-container">
         <img
           className="ref"
