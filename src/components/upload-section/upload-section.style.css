@@ -1,0 +1,156 @@
+.upload-container {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  align-self: center;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 50px;
+}
+.upload-image {
+  background-color: rgba(76, 40, 159, 0.692);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  width: 600px;
+  height: 60px;
+  margin-top: 3px;
+  filter: drop-shadow(1px 2px 4px #555555);
+}
+
+.upload-image span {
+  font-family: inherit;
+  color: white;
+  margin-right: 25px;
+}
+.upload-image input {
+  background-color: rgba(255, 255, 255, 0.502);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 370px;
+}
+
+.custom-file-btn::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-btn::before {
+  content: "Browse files";
+  display: inline-block;
+  background-color: rgb(207, 187, 228);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  /* -webkit-user-select: none; */
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 12pt;
+}
+.custom-file-btn:hover::before {
+  border-color: black;
+}
+
+.text-input-container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+#firstname {
+  text-align: center;
+  font-size: 15px;
+  width: 100%;
+  height: 30px;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-top: 3px;
+  filter: drop-shadow(0px 1px 3px #555555);
+  background-color: rgba(255, 255, 255, 0.481);
+}
+
+#lastname {
+  text-align: center;
+  font-size: 15px;
+  width: 100%;
+  height: 30px;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-top: 3px;
+  filter: drop-shadow(0px 1px 3px #555555);
+  background-color: rgba(255, 255, 255, 0.481);
+}
+
+#weapon {
+  text-align: center;
+  font-size: 15px;
+  width: 100%;
+  height: 30px;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-top: 3px;
+  filter: drop-shadow(0px 1px 3px #555555);
+  background-color: rgba(255, 255, 255, 0.481);
+}
+
+#strength {
+  text-align: center;
+  font-size: 15px;
+  width: 100%;
+  height: 30px;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-top: 3px;
+  filter: drop-shadow(0px 1px 3px #555555);
+  background-color: rgba(255, 255, 255, 0.481);
+}
+
+#weakness {
+  text-align: center;
+  font-size: 15px;
+  width: 100%;
+  height: 30px;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-top: 3px;
+  filter: drop-shadow(0px 1px 3px #555555);
+  background-color: rgba(255, 255, 255, 0.481);
+}
+
+.button {
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+
+  cursor: pointer;
+  padding: 25px 80px;
+  display: inline-block;
+  margin: 15px 30px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  outline: none;
+  position: relative;
+
+  background: rgb(86, 54, 160);
+  color: #fff;
+  box-shadow: 1px 6px #2a1a3d;
+  -webkit-transition: none;
+  -moz-transition: none;
+  transition: none;
+  border-radius: 40px;
+}
+
+.button:hover {
+  box-shadow: 0.5px 4px #2a1a3d;
+  top: 2px;
+}
+
+.button:active {
+  box-shadow: 0 0 #2a1a3d;
+  top: 6px;
+}

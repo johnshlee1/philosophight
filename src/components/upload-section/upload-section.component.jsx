@@ -5,6 +5,8 @@ import { storage } from "../../firebase/firebase";
 
 import { addCollectionAndDocuments } from "../../api/api-utils.component";
 
+import "./upload-section.style.css";
+
 export const UploadSection = (props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -112,49 +114,56 @@ export const UploadSection = (props) => {
   };
 
   return (
-    <div>
-      <label>
+    <div className="upload-container">
+      <div className="upload-image">
         <span>Upload Image </span>
-        <input type="file" id="file" onChange={handleChange} />
-      </label>
-      <input
-        id="firstname"
-        type="text"
-        name="firstname"
-        placeholder="Enter First Name"
-        onChange={handleChange}
-      />
-      <input
-        id="lastname"
-        type="text"
-        name="lastname"
-        placeholder="Enter Last Name"
-        onChange={handleChange}
-      />
+        <input
+          type="file"
+          id="file"
+          className="custom-file-btn"
+          onChange={handleChange}
+        />
+      </div>
+      <div className="text-input-container">
+        <input
+          id="firstname"
+          type="text"
+          name="firstname"
+          placeholder="Enter First Name"
+          onChange={handleChange}
+        />
+        <input
+          id="lastname"
+          type="text"
+          name="lastname"
+          placeholder="Enter Last Name"
+          onChange={handleChange}
+        />
 
-      <input
-        id="weapon"
-        type="text"
-        name="weapon"
-        placeholder="Enter Primary Weapon"
-        onChange={handleChange}
-      />
+        <input
+          id="weapon"
+          type="text"
+          name="weapon"
+          placeholder="Enter Primary Weapon"
+          onChange={handleChange}
+        />
 
-      <input
-        id="strength"
-        type="text"
-        name="strength"
-        placeholder="Enter Strength"
-        onChange={handleChange}
-      />
+        <input
+          id="strength"
+          type="text"
+          name="strength"
+          placeholder="Enter Strength"
+          onChange={handleChange}
+        />
 
-      <input
-        id="weakness"
-        type="text"
-        name="weakness"
-        placeholder="Enter Weakness"
-        onChange={handleChange}
-      />
+        <input
+          id="weakness"
+          type="text"
+          name="weakness"
+          placeholder="Enter Weakness"
+          onChange={handleChange}
+        />
+      </div>
 
       <button className="button" onClick={handleUpload}>
         Submit

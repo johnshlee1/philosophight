@@ -74,18 +74,15 @@ const App = () => {
   return (
     <div className="App">
       <h1> Philosophight </h1>
-
+      <SearchBox
+        placeholder="search philosophers"
+        handleSearch={handleSearch}
+      />
       <UploadSection
         currentId={currentId}
         setCurrentId={setCurrentId}
         setAddedPhilosopher={setAddedPhilosopher}
       />
-
-      <SearchBox
-        placeholder="search philosophers"
-        handleSearch={handleSearch}
-      />
-
       <CardList philosophers={filteredPhilosophers} />
     </div>
   );

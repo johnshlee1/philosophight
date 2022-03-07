@@ -1,9 +1,11 @@
 .card-container {
   display: flex;
   flex-direction: column;
-  background-color: #95dada;
-  border: 1px solid grey;
-  border-radius: 5px;
+  background-color: rgba(187, 161, 161, 0.468);
+  border-right: 3px solid rgba(126, 126, 126, 0.548);
+  border-bottom: 3px solid rgba(126, 126, 126, 0.548);
+  border-radius: 15px;
+  filter: drop-shadow(8px 8px 4px #4444dd);
   padding: 25px;
   cursor: pointer;
   -moz-osx-font-smoothing: grayscale;
@@ -16,7 +18,10 @@
 .card-container:hover {
   transform: scale(1.05);
 }
-
+.card-container h2 {
+  color: rgba(255, 255, 255, 0.851);
+}
 .desc {
   text-align: start;
+  color: rgba(255, 255, 255, 0.701);
 }
