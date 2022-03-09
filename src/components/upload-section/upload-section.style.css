@@ -5,32 +5,37 @@
   align-self: center;
   align-content: center;
   align-items: center;
-  width: 100%;
   margin-bottom: 50px;
 }
 .upload-image {
-  background-color: rgba(76, 40, 159, 0.692);
-  border-radius: 10px;
+  width: 400px;
+
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+
   font-size: 18px;
-  width: 600px;
-  height: 60px;
-  margin-top: 3px;
+  background-color: rgba(76, 40, 159, 0.692);
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  border-radius: 10px;
+
   filter: drop-shadow(1px 2px 4px #555555);
 }
 
 .upload-image span {
   font-family: inherit;
   color: white;
-  margin-right: 25px;
+  margin-bottom: 5px;
 }
-.upload-image input {
+.custom-file-btn {
   background-color: rgba(255, 255, 255, 0.502);
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 370px;
+  width: 90%;
 }
 
 .custom-file-btn::-webkit-file-upload-button {
@@ -58,13 +63,13 @@
 .text-input-container {
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 300px;
 }
 
 #firstname {
   text-align: center;
   font-size: 15px;
-  width: 100%;
+
   height: 30px;
   border: 2px solid black;
   border-radius: 5px;
@@ -76,7 +81,7 @@
 #lastname {
   text-align: center;
   font-size: 15px;
-  width: 100%;
+
   height: 30px;
   border: 2px solid black;
   border-radius: 5px;
@@ -88,7 +93,7 @@
 #weapon {
   text-align: center;
   font-size: 15px;
-  width: 100%;
+
   height: 30px;
   border: 2px solid black;
   border-radius: 5px;
@@ -100,7 +105,7 @@
 #strength {
   text-align: center;
   font-size: 15px;
-  width: 100%;
+
   height: 30px;
   border: 2px solid black;
   border-radius: 5px;
@@ -112,7 +117,7 @@
 #weakness {
   text-align: center;
   font-size: 15px;
-  width: 100%;
+
   height: 30px;
   border: 2px solid black;
   border-radius: 5px;
@@ -153,4 +158,20 @@
 .button:active {
   box-shadow: 0 0 #2a1a3d;
   top: 6px;
+}
+
+@media screen and (max-device-width: 414px) {
+  .upload-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .upload-image {
+    width: 300px;
+    flex-direction: column;
+  }
+
+  .custom-file-btn {
+    width: 95%;
+  }
 }
